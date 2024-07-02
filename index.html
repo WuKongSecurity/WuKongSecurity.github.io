@@ -28,6 +28,7 @@
             text-align: right;
             animation: fadeIn 3s ease-in-out;
             user-select: none;
+            z-index: 999;
         }
 
         .main-text {
@@ -44,8 +45,12 @@
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         @media (max-width: 912px) {
@@ -69,45 +74,110 @@
                 font-size: 1vh;
             }
         }
+
+        #canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <p class="main-text">WK</p>
-        <p class="sub-text">Copyright © 2023 - <span id="currentYear">2024</span> WuKong Security.</p>
-    </div>
+<div class="container">
+    <p class="main-text">WK</p>
+    <p class="sub-text">Copyright © 2023 - <span id="currentYear">2024</span> WuKong Security.</p>
+</div>
+<canvas id="canvas"></canvas>
+<audio id="audio" autoplay loop>
+    <source src="./static/audio/only-in-the-dark.mp3" type="audio/mpeg">
+</audio>
 
-    <audio id="audio" autoplay loop><source src="./static/audio/only-in-the-dark.mp3" type="audio/mpeg"></audio>
+<script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
 
-    <script>
-        document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
+    const audio = document.getElementById("audio");
+    let isPlaying = false;
 
-        const audio = document.getElementById("audio");
-        let isPlaying = false;
+    function playAudio() {
+        if (!isPlaying) {
+            audio.play().then(() => {
+                isPlaying = true;
+                console.log("Audio is playing");
 
-        function playAudio() {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    console.log("Audio is playing");
-                }).catch((error) => {
-                    console.log("Error playing audio:", error);
-                });
-            }
+                const context = new AudioContext();
+                const src = context.createMediaElementSource(audio);
+                const analyser = context.createAnalyser();
+
+                const canvas = document.getElementById("canvas");
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const ctx = canvas.getContext("2d");
+
+                src.connect(analyser);
+                analyser.connect(context.destination);
+
+                analyser.fftSize = 256;
+
+                const bufferLength = analyser.frequencyBinCount;
+                console.log(bufferLength);
+
+                const dataArray = new Uint8Array(bufferLength);
+
+                const WIDTH = canvas.width;
+                const HEIGHT = canvas.height;
+
+                const barWidth = (WIDTH / bufferLength) * 2.5;
+                let barHeight;
+                let x = 0;
+
+                function renderFrame() {
+                    requestAnimationFrame(renderFrame);
+
+                    x = 0;
+
+                    analyser.getByteFrequencyData(dataArray);
+
+                    ctx.fillStyle = "#000";
+                    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        barHeight = dataArray[i];
+
+                        const r = barHeight + (25 * (i / bufferLength));
+                        const g = 250 * (i / bufferLength);
+                        const b = 50;
+
+                        ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                        ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+
+                        x += barWidth + 1;
+                    }
+                }
+
+                // audio.play();
+                renderFrame();
+
+            }).catch((error) => {
+                console.log("Error playing audio:", error);
+            });
         }
+    }
 
-        // 绑定用户交互事件
-        document.addEventListener("click", playAudio);
-        document.addEventListener("touchstart", playAudio);
+    // 绑定用户交互事件
+    document.addEventListener("click", playAudio);
+    document.addEventListener("touchstart", playAudio);
 
-        // 防止重复播放
-        audio.addEventListener("playing", () => {
-            isPlaying = true;
-        });
+    // 防止重复播放
+    audio.addEventListener("playing", () => {
+        isPlaying = true;
+    });
 
-        audio.addEventListener("pause", () => {
-            isPlaying = false;
-        });
-    </script>
+    audio.addEventListener("pause", () => {
+        isPlaying = false;
+    });
+</script>
 </body>
 </html>
