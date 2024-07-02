@@ -44,6 +44,15 @@
             margin-right: 3vh;
         }
 
+        .sub-text a {
+            color: #f6f6f6;
+            text-decoration: none;
+        }
+
+        .sub-text a:hover {
+            text-decoration: underline;
+        }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -55,11 +64,11 @@
 
         @media (max-width: 912px) {
             .main-text {
-                font-size: 25vh;
+                font-size: 30vh;
             }
 
             .sub-text {
-                font-size: 1.5vh;
+                font-size: 1.8vh;
                 margin-top: -1vh;
                 margin-right: 1vh;
             }
@@ -67,11 +76,11 @@
 
         @media (max-width: 768px) {
             .main-text {
-                font-size: 15vh;
+                font-size: 20vh;
             }
 
             .sub-text {
-                font-size: 1vh;
+                font-size: 1.5vh;
             }
         }
 
@@ -88,6 +97,7 @@
 <body>
 <div class="container">
     <p class="main-text">WK</p>
+    <p class="sub-text">Powered by <a href="https://itbob.cn/" target="_blank"> BOB</a>.</p>
     <p class="sub-text">Copyright © 2023 - <span id="currentYear">2024</span> WuKong Security.</p>
 </div>
 <canvas id="canvas"></canvas>
@@ -179,5 +189,7 @@
         isPlaying = false;
     });
 </script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"3IvKxKuUS0UrDMdL",ck:"3IvKxKuUS0UrDMdL"})</script>
 </body>
 </html>
