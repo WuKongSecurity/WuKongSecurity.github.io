@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./static/img/favicon.png">
+    <title>WuKong Security</title>
+    <style>
+        @font-face {
+            font-family: "Aexir";
+            src: url(./static/font/Aexir.otf);
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            color: #f6f6f6;
+            text-align: right;
+            animation: fadeIn 3s ease-in-out;
+            user-select: none;
+        }
+
+        .main-text {
+            font-size: 80vh;
+            font-family: "Aexir", sans-serif;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .sub-text {
+            font-size: 3vh;
+            margin-top: -10vh;
+            margin-right: 3vh;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 912px) {
+            .main-text {
+                font-size: 25vh;
+            }
+
+            .sub-text {
+                font-size: 1.5vh;
+                margin-top: -1vh;
+                margin-right: 1vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-text {
+                font-size: 15vh;
+            }
+
+            .sub-text {
+                font-size: 1vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="main-text">WK</p>
+        <p class="sub-text">Copyright © 2023 - <span id="currentYear">2024</span> WuKong Security.</p>
+    </div>
+
+    <audio id="audio" autoplay loop><source src="./static/audio/only-in-the-dark.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
+
+        const audio = document.getElementById("audio");
+        let isPlaying = false;
+
+        function playAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    console.log("Audio is playing");
+                }).catch((error) => {
+                    console.log("Error playing audio:", error);
+                });
+            }
+        }
+
+        // 绑定用户交互事件
+        document.addEventListener("click", playAudio);
+        document.addEventListener("touchstart", playAudio);
+
+        // 防止重复播放
+        audio.addEventListener("playing", () => {
+            isPlaying = true;
+        });
+
+        audio.addEventListener("pause", () => {
+            isPlaying = false;
+        });
+    </script>
+</body>
+</html>
