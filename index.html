@@ -6,11 +6,18 @@
     <link rel="icon" href="./static/img/favicon.png">
     <title>WuKong Security</title>
     <meta name="description" content="WuKong Security, 悟空数据安全, 专注于数据保护、代码混淆加固、API 安全、数字风控技术、行为验证。">
-    <meta name="keywords" content="wukong security, data protection, code obfuscation reinforcement, api security, digital risk control technology, behavior verification.">
+    <meta name="keywords"
+          content="wukong security, data protection, code obfuscation reinforcement, api security, digital risk control technology, behavior verification.">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/5.15.4/css/all.min.css">
     <style>
         @font-face {
             font-family: "Aexir";
             src: url(./static/font/Aexir.otf);
+        }
+
+        @font-face {
+            font-family: "Eurofighter";
+            src: url(https://cdn.itbob.cn/font/Eurofighter.otf);
         }
 
         body, html {
@@ -33,6 +40,10 @@
             z-index: 999;
         }
 
+        .far {
+            font-size: 2.5vh;
+        }
+
         .main-text {
             font-size: 80vh;
             font-family: "Aexir", sans-serif;
@@ -42,6 +53,7 @@
 
         .sub-text {
             font-size: 3vh;
+            font-family: "Eurofighter", sans-serif;
             margin-top: -10vh;
             margin-right: 3vh;
         }
@@ -150,138 +162,138 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <p class="main-text">WK</p>
-        <p class="sub-text hover-target">Powered by <a href="https://itbob.cn/" target="_blank"> BOB</a>.</p>
-        <p class="sub-text hover-target">Copyright © 2023 - <span id="currentYear">2024</span> WuKong Security.</p>
-    </div>
-    <audio id="audio" autoplay loop>
-        <source src="./static/audio/only-in-the-dark.mp3" type="audio/mpeg">
-    </audio>
-    <canvas id="canvas"></canvas>
-    <div class='cursor' id="cursor"></div>
-    <div class='cursor2' id="cursor2"></div>
-    <div class='cursor3' id="cursor3"></div>
-    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-    <script>LA.init({id: "3IvKxKuUS0UrDMdL", ck: "3IvKxKuUS0UrDMdL"})</script>
-    <script>
-        document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
+<div class="container">
+    <p class="main-text">WK</p>
+    <p class="sub-text hover-target">Powered by <a href="https://itbob.cn/" target="_blank"> BOB</a>.</p>
+    <p class="sub-text hover-target">Copyright <i class="far fa-copyright"></i> 2023 - <span id="currentYear">2024</span> wuKong Security.</p>
+</div>
+<audio id="audio" autoplay loop>
+    <source src="./static/audio/only-in-the-dark.mp3" type="audio/mpeg">
+</audio>
+<canvas id="canvas"></canvas>
+<div class='cursor' id="cursor"></div>
+<div class='cursor2' id="cursor2"></div>
+<div class='cursor3' id="cursor3"></div>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id: "3IvKxKuUS0UrDMdL", ck: "3IvKxKuUS0UrDMdL"})</script>
+<script>
+	document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
 
-        const audio = document.getElementById("audio");
-        let isPlaying = false;
+	const audio = document.getElementById("audio");
+	let isPlaying = false;
 
-        function playAudio() {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    console.log("Audio is playing");
+	function playAudio() {
+		if (!isPlaying) {
+			audio.play().then(() => {
+				isPlaying = true;
+				console.log("Audio is playing");
 
-                    const context = new AudioContext();
-                    const src = context.createMediaElementSource(audio);
-                    const analyser = context.createAnalyser();
+				const context = new AudioContext();
+				const src = context.createMediaElementSource(audio);
+				const analyser = context.createAnalyser();
 
-                    const canvas = document.getElementById("canvas");
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    const ctx = canvas.getContext("2d");
+				const canvas = document.getElementById("canvas");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				const ctx = canvas.getContext("2d");
 
-                    src.connect(analyser);
-                    analyser.connect(context.destination);
+				src.connect(analyser);
+				analyser.connect(context.destination);
 
-                    analyser.fftSize = 256;
+				analyser.fftSize = 256;
 
-                    const bufferLength = analyser.frequencyBinCount;
-                    console.log(bufferLength);
+				const bufferLength = analyser.frequencyBinCount;
+				console.log(bufferLength);
 
-                    const dataArray = new Uint8Array(bufferLength);
+				const dataArray = new Uint8Array(bufferLength);
 
-                    const WIDTH = canvas.width;
-                    const HEIGHT = canvas.height;
+				const WIDTH = canvas.width;
+				const HEIGHT = canvas.height;
 
-                    const barWidth = (WIDTH / bufferLength) * 2.5;
-                    let barHeight;
-                    let x = 0;
+				const barWidth = (WIDTH / bufferLength) * 2.5;
+				let barHeight;
+				let x = 0;
 
-                    function renderFrame() {
-                        requestAnimationFrame(renderFrame);
+				function renderFrame() {
+					requestAnimationFrame(renderFrame);
 
-                        x = 0;
+					x = 0;
 
-                        analyser.getByteFrequencyData(dataArray);
+					analyser.getByteFrequencyData(dataArray);
 
-                        ctx.fillStyle = "#000";
-                        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+					ctx.fillStyle = "#000";
+					ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-                        for (let i = 0; i < bufferLength; i++) {
-                            barHeight = dataArray[i];
+					for (let i = 0; i < bufferLength; i++) {
+						barHeight = dataArray[i];
 
-                            const r = barHeight + (25 * (i / bufferLength));
-                            const g = 250 * (i / bufferLength);
-                            const b = 50;
+						const r = barHeight + (25 * (i / bufferLength));
+						const g = 250 * (i / bufferLength);
+						const b = 50;
 
-                            ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-                            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+						ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+						ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
-                            x += barWidth + 1;
-                        }
-                    }
+						x += barWidth + 1;
+					}
+				}
 
-                    // audio.play();
-                    renderFrame();
+				// audio.play();
+				renderFrame();
 
-                }).catch((error) => {
-                    console.log("Error playing audio:", error);
-                });
-            }
-        }
+			}).catch((error) => {
+				console.log("Error playing audio:", error);
+			});
+		}
+	}
 
-        // 绑定用户交互事件
-        document.addEventListener("click", playAudio);
-        document.addEventListener("touchstart", playAudio);
+	// 绑定用户交互事件
+	document.addEventListener("click", playAudio);
+	document.addEventListener("touchstart", playAudio);
 
-        // 防止重复播放
-        audio.addEventListener("playing", () => {
-            isPlaying = true;
-        });
+	// 防止重复播放
+	audio.addEventListener("playing", () => {
+		isPlaying = true;
+	});
 
-        audio.addEventListener("pause", () => {
-            isPlaying = false;
-        });
-    </script>
-    <script>
-        (function () {
-            document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
-                t.style.left = n.clientX + "px";
-                t.style.top = n.clientY + "px";
-                e.style.left = n.clientX + "px";
-                e.style.top = n.clientY + "px";
-                i.style.left = n.clientX + "px";
-                i.style.top = n.clientY + "px";
-            });
-            const t = document.getElementById("cursor"),
-                e = document.getElementById("cursor2"),
-                i = document.getElementById("cursor3");
+	audio.addEventListener("pause", () => {
+		isPlaying = false;
+	});
+</script>
+<script>
+	(function () {
+		document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
+			t.style.left = n.clientX + "px";
+			t.style.top = n.clientY + "px";
+			e.style.left = n.clientX + "px";
+			e.style.top = n.clientY + "px";
+			i.style.left = n.clientX + "px";
+			i.style.top = n.clientY + "px";
+		});
+		const t = document.getElementById("cursor"),
+			e = document.getElementById("cursor2"),
+			i = document.getElementById("cursor3");
 
-            function n() {
-                e.classList.add("hover");
-                i.classList.add("hover");
-            }
+		function n() {
+			e.classList.add("hover");
+			i.classList.add("hover");
+		}
 
-            function s() {
-                e.classList.remove("hover");
-                i.classList.remove("hover");
-            }
+		function s() {
+			e.classList.remove("hover");
+			i.classList.remove("hover");
+		}
 
-            s();
-            for (let r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
-                o(r[a])
-            }
+		s();
+		for (let r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+			o(r[a])
+		}
 
-            function o(t) {
-                t.addEventListener("mouseover", n);
-                t.addEventListener("mouseout", s);
-            }
-        })();
-    </script>
+		function o(t) {
+			t.addEventListener("mouseover", n);
+			t.addEventListener("mouseout", s);
+		}
+	})();
+</script>
 </body>
 </html>
